@@ -1,4 +1,5 @@
-var express = require('express');
+var express = require('express'),
+  mongoose = require('mongoose');
 
 var env = process.env.NODE_ENV || 'development';
 
@@ -11,6 +12,14 @@ app.configure(function() {
   app.use(express.bodyParser());
 
   app.use(express.static(__dirname + '/public'));
+});
+
+mongoose.connect('mongodb://admin:welcome1@troup.mongohq.com:10039/alumnos');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Connection error'));
+db.once('open', function callback () {
+  console.log('Alumnos database open');
 });
 
 app.get('*', function(req, res){
