@@ -18,12 +18,23 @@ mongoose.connect('mongodb://admin:welcome1@troup.mongohq.com:10039/alumnos');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error'));
-db.once('open', function callback () {
+db.once('open', function () {
   console.log('Alumnos database open');
 });
 
+var messageSchema = mongoose.Schema({ message: String });
+var Message = mongoose.model('Message', messageSchema);
+
+var mongoMessage;
+
+Message.findOne().exec(function (err, messageDoc) {
+  mongoMessage = messageDoc.message;
+});
+
 app.get('*', function(req, res){
-  res.render('index');
+  res.render('index', {
+    message: mongoMessage
+  });
 });
 
 var port = process.env.PORT || 3030;
