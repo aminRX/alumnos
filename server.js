@@ -16,6 +16,9 @@ app.configure(function() {
 
 mongoose.connect('mongodb://admin:welcome1@troup.mongohq.com:10039/alumnos');
 
+// mongodb local
+// mongoose.connect('mongodb://localhost/alumnos');
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error'));
 db.once('open', function () {
